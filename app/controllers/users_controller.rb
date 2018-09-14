@@ -25,6 +25,27 @@ class UsersController < ApplicationController
     end
   end
 
+  # User Login
+  def login
+    user = User.find_by(email: params[:email])
+    authenticated_user = user.authenticate(params[:password])
+    if authenticated_user
+      render json: authenticated_user
+    else
+      render json: { errors: "Invalid email or password" }, status: 400
+    end
+  end
+
+  # Delete User
+  def destroy
+    if params[:id]
+      user = User.find(params[:id].to_i).destroy
+      render json: { success: "User destroyed" }, status: 204
+    else
+      render json: { error: 'Invalid User ID' }, status: 400
+    end
+  end
+
   private
 
   def user_params
