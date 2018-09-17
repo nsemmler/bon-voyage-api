@@ -3,9 +3,10 @@ rvm:
   - 2.4.1
 before_script:
   - psql -c 'create database bon_voyage_api_test;' -U postgres
-  - bundle i rake -v 12.3.1
 script:
-  - rake db:migrate db:seed
+  - rake db:rollback
+  - rake db:migrate
+  - rake db:seed
   - bundle exec rspec
 services:
   - postgresql
