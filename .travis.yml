@@ -1,12 +1,10 @@
 language: ruby
 rvm:
   - 2.4.1
-  - jruby
 before_script:
   - psql -c 'create database bon_voyage_api_test;' -U postgres
 script:
-  - rake db:migrate
-  - rake db:seed
+  - rake db:migrate db:seed
   - bundle exec rspec
 services:
   - postgresql
