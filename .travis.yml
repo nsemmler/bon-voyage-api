@@ -1,12 +1,14 @@
 language: ruby
 rvm:
   - 2.4.1
+gemfile:
+  - Gemfile
 before_script:
   - psql -c 'create database bon_voyage_api_test;' -U postgres
 script:
-  - rake db:rollback
-  - rake db:migrate
-  - rake db:seed
+  - bundle exec rake db:rollback
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
   - bundle exec rspec
 services:
   - postgresql
