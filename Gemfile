@@ -24,6 +24,7 @@ gem 'bcrypt'
 
 # Authentication
 gem 'devise'
+gem 'warden-jwt_auth'
 gem 'devise-jwt'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible

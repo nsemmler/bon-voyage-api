@@ -6,7 +6,9 @@ class User < ApplicationRecord
           :recoverable,
           :rememberable,
           :trackable,
-          :validatable
+          :validatable,
+          :jwt_authenticatable,
+          jwt_revocation_strategy: JWTBlacklist
 
   validates_presence_of :email, :password
 

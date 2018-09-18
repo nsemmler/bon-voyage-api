@@ -207,6 +207,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
+  warden-jwt_auth
 
 BUNDLED WITH
    1.16.1
