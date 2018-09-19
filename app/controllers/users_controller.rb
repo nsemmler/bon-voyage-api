@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   # Get all Users
   def index
     users = User.all
-    render json: users
+    render json: users, status: 200, each_serializer: UserSerializer
   end
 
   # Get a single User
@@ -12,26 +14,6 @@ class UsersController < ApplicationController
       render json: user
     else
       render json: { error: 'Invalid User ID' }, status: 400
-    end
-  end
-
-  # Create new User
-  def create
-    user = User.new(user_params)
-    if user.save
-      render json: user
-    else
-      render json: { errors: user.errors.full_messages }, status: 400
-    end
-  end
-
-  # User Login
-  def login
-    user = User.find_by(email: params[:email])
-    if user
-      render json: user
-    else
-      render json: { errors: "Invalid email or password" }, status: 400
     end
   end
 
@@ -48,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :password)
+    params.permit(:email, :password, :password_confirmation)
   end
 end

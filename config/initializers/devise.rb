@@ -10,6 +10,29 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '3182b14d5079e85f6133bbb3fdef9cd07d92649d2036217e1d473fd4db474b51debbf662d6cdbcbe796ab1a9e2df76e6086ed7919bda20c4f406ad6b1ed54e5c'
 
+  # JWT Token Authentication
+  config.jwt do |jwt|
+    jwt.secret = ENV['SECRET_KEY']
+    jwt.expiration_time = 1.day.to_i
+    jwt.request_formats = {
+      user: [:json]
+    }
+
+    jwt.dispatch_requests = [
+      ['POST', %r{^/login$}]
+    ]
+
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/logout$}]
+    ]
+  end
+
+  # # Warden JWT Authentication
+  # Warden::JWTAuth.configure do |config|
+  #   # config.secret = ENV['SECRET_KEY']
+  #   config.secret = '5a20e47f958fc424aa6d27766cfdcc2f202642a0e42cee4c39034f30a539cf82ec3c2f7b449338bb4b5f075cac2a83ac019cfbf857349aa28f0c038f48f6ef67'
+  # end
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
@@ -245,6 +268,8 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = []
+
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
