@@ -40,6 +40,10 @@ group :development, :test do
   # RSpec for testing
   gem 'rspec'
   gem 'rspec-rails'
+
+  # JWT Token Serializers
+  # currently undergoing maintanence .: version 0.9.4 necessary
+  gem 'active_model_serializers', '~>0.9.4' 
 end
 
 group :development do
