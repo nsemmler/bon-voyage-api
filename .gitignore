@@ -9,6 +9,7 @@
 
 # Ignore all logfiles and tempfiles.
 /config/local_env.yml
+.env
 /log/*
 /tmp/*
 !/log/.keep
