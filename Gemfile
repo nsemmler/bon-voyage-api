@@ -18,6 +18,7 @@ gem 'puma', '~> 3.7'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
+gem 'bcrypt-ruby', '3.1.2'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -43,7 +44,7 @@ group :development, :test do
 
   # JWT Token Serializers
   # currently undergoing maintanence .: version 0.9.4 necessary
-  gem 'active_model_serializers', '~>0.9.4' 
+  gem 'active_model_serializers', '~>0.9.4'
 end
 
 group :development do
