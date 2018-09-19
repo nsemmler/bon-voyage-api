@@ -8,20 +8,9 @@
 
 
 # Users
-User.create(
-  email: 'test@gmail.com',
-  password: 'password'
-)
-
-User.create(
-  email: 'g@mail.com',
-  password: 'something'
-)
-
-User.create(
-  email: 'all@mail.com',
-  password: 'allmail'
-)
+User.create(email: 'test@gmail.com', password: 'password')
+User.create(email: 'g@mail.com', password: 'something')
+User.create(email: 'all@mail.com', password: 'allmail')
 
 # Trips
 Trip.create(
