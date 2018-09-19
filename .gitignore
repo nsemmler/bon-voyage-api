@@ -8,7 +8,7 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
-.env
+/config/local_env.yml
 /log/*
 /tmp/*
 !/log/.keep
