@@ -1,7 +1,4 @@
-# require 'bcrypt'
-
 class User < ApplicationRecord
-  # include BCrypt
   has_many :trips, dependent: :destroy
   before_save { self.email = email.downcase }
 
@@ -18,7 +15,6 @@ class User < ApplicationRecord
 
   validates_associated :trips
   validates_presence_of :email, :password
-  # has_secure_password
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
