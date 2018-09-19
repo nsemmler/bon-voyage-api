@@ -43,7 +43,6 @@ GEM
       tzinfo (~> 1.1)
     arel (8.0.0)
     bcrypt (3.1.12)
-    bcrypt-ruby (3.1.2)
     builder (3.2.3)
     byebug (10.0.2)
     coderay (1.1.2)
@@ -194,7 +193,6 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.9.4)
   bcrypt
-  bcrypt-ruby (= 3.1.2)
   byebug
   database_cleaner
   devise
