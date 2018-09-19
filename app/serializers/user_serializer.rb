@@ -1,3 +1,3 @@
-class UserSerializer > ApplicationSerializer
+class UserSerializer < ApplicationSerializer
   attributes :id, :email, :password
 end
