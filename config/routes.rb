@@ -38,5 +38,10 @@ Rails.application.routes.draw do
   get     '/users/:id',     to: 'users#show'
   delete  '/users/:id',     to: 'users#destroy'
 
+  get     '/users/:user_id/trips',      to: 'trips#show'
+  post    '/users/:user_id/trips',      to: 'trips#create'
+  patch   '/users/:user_id/trips/:id',  to: 'trips#update'
+  delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
+
   root to: "users#index"
 end
