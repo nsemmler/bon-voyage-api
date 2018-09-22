@@ -1,12 +1,6 @@
 # ---------------------------------------------------------------------------------------------------------
 # Prefix Verb                URI Pattern                                Controller#Action
 # ---------------------------------------------------------------------------------------------------------
-# countries                  GET    /countries(.:format)                countries#index
-#                            POST   /countries(.:format)                countries#create
-# country                    GET    /countries/:id(.:format)            countries#show
-#                            PATCH  /countries/:id(.:format)            countries#update
-#                            PUT    /countries/:id(.:format)            countries#update
-#                            DELETE /countries/:id(.:format)            countries#destroy
 # new_user_session           GET    /login(.:format)                    sessions#new {:format=>:json}
 # user_session               POST   /login(.:format)                    sessions#create {:format=>:json}
 # destroy_user_session       DELETE /logout(.:format)                   sessions#destroy {:format=>:json}
@@ -29,11 +23,10 @@
 #                            POST   /users/:user_id/trips(.:format)     trips#create
 #                            PATCH  /users/:user_id/trips/:id(.:format) trips#update
 #                            DELETE /users/:user_id/trips/:id(.:format) trips#destroy
+#                            GET    /countries/:subregion               countries#fetchCountryBySubregion
 # root                       GET    /                                   users#index
 
 Rails.application.routes.draw do
-  resources :countries
-
   devise_for :users,
     path: '',
     path_names: {
@@ -54,6 +47,8 @@ Rails.application.routes.draw do
   post    '/users/:user_id/trips',      to: 'trips#create'
   patch   '/users/:user_id/trips/:id',  to: 'trips#update'
   delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
+
+  get     '/countries/:subregion',      to: 'countries#fetchCountryBySubregion'
 
   root to: "users#index"
 end
