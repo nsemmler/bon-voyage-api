@@ -27,6 +27,9 @@ gem 'devise'
 gem 'warden-jwt_auth'
 gem 'devise-jwt'
 
+# HTTP Client for Ruby
+gem 'rest-client'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 

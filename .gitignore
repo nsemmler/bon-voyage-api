@@ -18,5 +18,6 @@
 /node_modules
 .DS_Store
 /config/initializers/dev_environment.rb
+/public/countries.json
 
 .byebug_history

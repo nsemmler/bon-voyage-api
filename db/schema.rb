@@ -10,14 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180919154325) do
+ActiveRecord::Schema.define(version: 20180921174354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "country_codes", force: :cascade do |t|
-    t.string "country_name"
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.string "native_name"
+    t.string "capital"
     t.string "country_code"
+    t.string "alpha_code"
+    t.string "region"
+    t.string "subregion"
+    t.integer "population"
+    t.float "latitude"
+    t.float "longitude"
+    t.text "bordered_by"
+    t.string "currency_name"
+    t.string "currency_symbol"
+    t.text "languages"
+    t.string "flag"
+    t.text "polygon_coordinatess"
+    t.integer "advisory_state"
+    t.string "advisory_description"
+    t.boolean "has_advisory_warning"
+    t.boolean "has_regional_advisory"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
