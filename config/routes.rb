@@ -27,6 +27,7 @@
 # root                       GET    /                           users#index
 
 Rails.application.routes.draw do
+  resources :countries
   devise_for :users,
     path: '',
     path_names: {
@@ -48,7 +49,7 @@ Rails.application.routes.draw do
   patch   '/users/:user_id/trips/:id',  to: 'trips#update'
   delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
 
-  get     '/cc/:country_name',   to: 'country_codes#getCCforCountryName'
+  # get     '/cc/:country_name',   to: 'country_codes#getCCforCountryName'
 
   root to: "users#index"
 end
