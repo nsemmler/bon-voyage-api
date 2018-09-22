@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   patch   '/users/:user_id/trips/:id',  to: 'trips#update'
   delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
 
-  get     '/countries/:subregion',      to: 'countries#fetchCountryBySubregion'
+  post     '/countries/subregion',      to: 'countries#fetchCountryBySubregion'
 
   root to: "users#index"
 end
