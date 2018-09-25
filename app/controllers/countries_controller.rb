@@ -6,17 +6,7 @@ class CountriesController < ApplicationController
         .where(subregion: JSON.parse(params[:subregions]))
         .order(subregion: :asc, name: :asc)
 
-      response = {}
-      countries.each do |country|
-        if response.has_key?("#{country.subregion}")
-          response["#{country.subregion}"].push(country)
-        else
-          response["#{country.subregion}"] = []
-          response["#{country.subregion}"].push(country)
-        end
-      end
-
-      render json: response, status: 200
+      render json: countries, status: 200
     else
       render json: { error: 'Subregion param required.' }, status: 400
     end
