@@ -23,7 +23,7 @@
 #                            POST   /users/:user_id/trips(.:format)     trips#create
 #                            PATCH  /users/:user_id/trips/:id(.:format) trips#update
 #                            DELETE /users/:user_id/trips/:id(.:format) trips#destroy
-#                            GET    /countries/:subregion               countries#fetchCountryBySubregion
+# countries_quiz             POST   /countries/quiz(.:format)           countries#suggestVacationDestinations
 # root                       GET    /                                   users#index
 
 Rails.application.routes.draw do
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   patch   '/users/:user_id/trips/:id',  to: 'trips#update'
   delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
 
-  post     '/countries/subregion',      to: 'countries#fetchCountryBySubregion'
+  post     '/countries/quiz',           to: 'countries#suggestVacationDestinations'
 
   root to: "users#index"
 end
