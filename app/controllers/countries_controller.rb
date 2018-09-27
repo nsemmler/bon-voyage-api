@@ -8,8 +8,8 @@ class CountriesController < ApplicationController
       @countries = Country.order(region: :asc, name: :asc)
 
       # Regions/Subregions
-      @countries = @countries.where(region: JSON.parse(params[:regions])) if params[:regions]
-      @countries = @countries.where(subregion: JSON.parse(params[:subregions])) if params[:subregions]
+      @countries = @countries.where(region: params[:regions]) if params[:regions]
+      @countries = @countries.where(subregion: params[:subregions]) if params[:subregions]
 
       # Population
       if params[:population]
@@ -20,20 +20,20 @@ class CountriesController < ApplicationController
       @countries = @countries.where("population > ?", population_lower_bound).where("population < ?", population_upper_bound) if params[:population]
 
       # Island nations only?
-      if params[:island] && JSON.parse(params[:island]) === "Yes"
+      if params[:island] && params[:island] === "Yes"
         @countries = @countries.where(bordered_by: nil)
-      elsif params[:island] && JSON.parse(params[:island]) === "No"
+      elsif params[:island] && params[:island] === "No"
         @countries = @countries.where("bordered_by like ?", "%[%")
-      elsif params[:island] && JSON.parse(params[:island]) === "Not sure"
+      elsif params[:island] && params[:island] === "Not sure"
         # do nothing
       end
 
-      # Language
-      if params[:english_only] && JSON.parse(params[:english_only]) === "Yes"
+      # Predominately English speaking nations only?
+      if params[:english_only] && params[:english_only] === "Yes"
         @countries = @countries.where("languages like ?", "%English%")
-      elsif params[:english_only] && JSON.parse(params[:english_only]) === "No"
+      elsif params[:english_only] && params[:english_only] === "No"
         @countries = @countries.where.not("languages like ?", "%English%")
-      elsif params[:english_only] && JSON.parse(params[:english_only]) === "Not sure"
+      elsif params[:english_only] && params[:english_only] === "Not sure"
         # do nothing
       end
 
@@ -46,7 +46,7 @@ class CountriesController < ApplicationController
   private
 
   def setCountryPopulationLowerBound (params)
-    populations_arr = JSON.parse(params)
+    populations_arr = params
     population_lower_bound = 0
 
     if populations_arr.include?("Small")
@@ -61,7 +61,7 @@ class CountriesController < ApplicationController
   end
 
   def setCountryPopulationUpperBound (params)
-    populations_arr = JSON.parse(params)
+    populations_arr = params
     population_upper_bound = 10000000000
 
     if populations_arr.include?("Large")
