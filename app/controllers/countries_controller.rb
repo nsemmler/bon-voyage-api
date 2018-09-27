@@ -20,16 +20,22 @@ class CountriesController < ApplicationController
       @countries = @countries.where("population > ?", population_lower_bound).where("population < ?", population_upper_bound) if params[:population]
 
       # Island nations only?
-      if params.include?("island")
-        if params[:island] === "false"
-          @countries = @countries.where("bordered_by like ?", "%[%")
-        elsif params[:island] === "true"
-          @countries = @countries.where(bordered_by: nil)
-        end
+      if params[:island] && JSON.parse(params[:island]) === "Yes"
+        @countries = @countries.where(bordered_by: nil)
+      elsif params[:island] && JSON.parse(params[:island]) === "No"
+        @countries = @countries.where("bordered_by like ?", "%[%")
+      elsif params[:island] && JSON.parse(params[:island]) === "Not sure"
+        # do nothing
       end
 
       # Language
-      @countries = @countries.where("languages like ?", "%English%") if params.include?("english_only") && params[:english_only]
+      if params[:english_only] && JSON.parse(params[:english_only]) === "Yes"
+        @countries = @countries.where("languages like ?", "%English%")
+      elsif params[:english_only] && JSON.parse(params[:english_only]) === "No"
+        @countries = @countries.where.not("languages like ?", "%English%")
+      elsif params[:english_only] && JSON.parse(params[:english_only]) === "Not sure"
+        # do nothing
+      end
 
       puts "NUMBER OF COUNTRIES RETURNED: #{@countries.as_json.length}"
 
@@ -43,11 +49,11 @@ class CountriesController < ApplicationController
     populations_arr = JSON.parse(params)
     population_lower_bound = 0
 
-    if populations_arr.include?("S")
+    if populations_arr.include?("Small")
       population_lower_bound = 0
-    elsif populations_arr.include?("M")
+    elsif populations_arr.include?("Medium")
       population_lower_bound = 1000000
-    elsif populations_arr.include?("L")
+    elsif populations_arr.include?("Large")
       population_lower_bound = 10000000
     end
 
@@ -58,11 +64,11 @@ class CountriesController < ApplicationController
     populations_arr = JSON.parse(params)
     population_upper_bound = 10000000000
 
-    if populations_arr.include?("L")
+    if populations_arr.include?("Large")
       population_upper_bound = 10000000000
-    elsif populations_arr.include?("M")
+    elsif populations_arr.include?("Medium")
       population_upper_bound = 10000000
-    elsif populations_arr.include?("S")
+    elsif populations_arr.include?("Small")
       population_upper_bound = 1000000
     end
 
