@@ -1,4 +1,6 @@
 require 'rest-client'
+require 'net/https'
+require 'uri'
 require 'json'
 require 'pry'
 
@@ -47,6 +49,7 @@ namespace :countries do
           languages = country["languages"].map! { |lang_obj| lang_obj["name"] }
           languages = nil if languages.empty?
           country["borders"] === [] ? bordered_by = nil : bordered_by = country["borders"]
+          country["name"] === "Viet Nam" ? name = "Vietnam" : name = country["name"]
 
           if (country["subregion"] === '')
             region = "Polar"
@@ -151,15 +154,30 @@ namespace :countries do
   task fetch_country_images: :environment do
     puts "Starting fetch_country_images"
 
-    # if !File.exist?('public/countries.json')
-    #   response = RestClient.get('https://restcountries.eu/rest/v2/all')
-    #
-    #   File.open('public/countries.json', "w+") do |f|
-    #     f.write(response.to_json)
-    #   end
-    # else
-    #   puts "Countries JSON file already generated"
-    # end
+    if File.exist?('public/countries.json')
+      file = JSON.parse(File.read("public/countries.json"))
+      countries_arr = JSON.parse(file)
+
+      countries_arr.each do |country|
+        if (Country.find_by(name: country["name"]).images.nil?)
+          puts "Fetching pictures for #{country["name"]}"
+
+          response = RestClient.get("https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=#{country['name'].gsub(/\u00C5/, 'A').gsub(/\u00E7/, 'c').gsub(/\u00F4/, 'o').gsub(/\u00E9/, 'e')}", headers={
+            "Ocp-Apim-Subscription-Key": ENV["BING_KEY_1"]
+          })
+
+          images_arr = JSON.parse(response)["value"]
+          country_images_arr = []
+
+          images_arr.each_with_index do |image_obj, i|
+            country_images_arr.push(image_obj["contentUrl"]) if (i < 15)
+          end
+
+          Country.find_by(name: country["name"]).update(images: country_images_arr)
+          sleep 1
+        end
+      end
+    end
 
     puts "fetch_country_images completed"
   end

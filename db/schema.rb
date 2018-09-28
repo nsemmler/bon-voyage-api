@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180921174354) do
+ActiveRecord::Schema.define(version: 20180928184339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,13 +31,13 @@ ActiveRecord::Schema.define(version: 20180921174354) do
     t.string "currency_symbol"
     t.text "languages"
     t.string "flag"
-    t.text "polygon_coordinatess"
     t.integer "advisory_state"
     t.string "advisory_description"
     t.boolean "has_advisory_warning"
     t.boolean "has_regional_advisory"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "images"
   end
 
   create_table "jwt_blacklists", force: :cascade do |t|
