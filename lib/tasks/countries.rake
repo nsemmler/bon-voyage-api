@@ -10,7 +10,6 @@ namespace :countries do
     :fetch_country_general_info,
     :seed_db_with_country_info,
     # :fetch_country_advisory_info,
-    # :fetch_country_polygon_coordinates, # remove from DB
     :update_bordered_by_values,
     :fetch_country_images
   ]
@@ -108,25 +107,6 @@ namespace :countries do
   #   end
   #
   #   puts "fetch_country_advisory_info completed"
-  # end
-
-  # desc "Fetches each Countries' Google Maps polygon coordinates"
-  # task fetch_country_polygon_coordinates: :environment do
-  #   puts "Starting fetch_country_polygon_coordinates"
-  #
-  #   large_countries = Country.where("population > ?", 10000000).order('population ASC')
-  #
-  #   large_countries.each do |country|
-  #     cc = country.country_code
-  #
-  #     if Country.find(country.id).polygon_coordinatess.nil?
-  #       response = RestClient.get("https://www.oipa.nl/api/countries/#{cc}?format=json")
-  #       coordinates = JSON.parse(response)["polygon"]["coordinates"]
-  #       Country.update(country.id, polygon_coordinatess: coordinates[0])
-  #     end
-  #   end
-  #
-  #   puts "fetch_country_polygon_coordinates completed"
   # end
 
   desc "Updates bordered_by attribute to replace border country codes with country names"
