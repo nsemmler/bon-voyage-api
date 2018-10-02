@@ -17,7 +17,7 @@ class CountriesController < ApplicationController
         population_upper_bound = setCountryPopulationUpperBound(params[:population])
       end
 
-      @countries = @countries.where("population > ?", population_lower_bound).where("population < ?", population_upper_bound) if params[:population]
+      @countries = @countries.where("population >= ?", population_lower_bound).where("population <= ?", population_upper_bound) if params[:population]
 
       # Island nations only?
       if params[:island] && params[:island] === "Yes"
