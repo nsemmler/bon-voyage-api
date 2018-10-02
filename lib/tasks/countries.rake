@@ -5,7 +5,7 @@ require 'json'
 require 'pry'
 
 namespace :countries do
-  desc 'Executes all other rake tasks'
+  desc 'Creates Country object for every nation in the World'
   task run_all: [
     :fetch_country_general_info,
     :seed_db_with_country_info,
