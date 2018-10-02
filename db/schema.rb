@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180928184339) do
+ActiveRecord::Schema.define(version: 20181002183534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,20 @@ ActiveRecord::Schema.define(version: 20180928184339) do
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_blacklists_on_jti"
+  end
+
+  create_table "point_of_interests", force: :cascade do |t|
+    t.bigint "country_id"
+    t.string "name"
+    t.string "description"
+    t.float "score"
+    t.string "wikipedia_link"
+    t.text "image"
+    t.float "longitude"
+    t.float "latitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_point_of_interests_on_country_id"
   end
 
   create_table "trips", force: :cascade do |t|
@@ -85,5 +99,6 @@ ActiveRecord::Schema.define(version: 20180928184339) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "point_of_interests", "countries"
   add_foreign_key "trips", "users"
 end

@@ -1,30 +1,31 @@
 # ---------------------------------------------------------------------------------------------------------
-# Prefix Verb                URI Pattern                                Controller#Action
+# Prefix Verb                URI Pattern                              Controller#Action
 # ---------------------------------------------------------------------------------------------------------
-# new_user_session           GET    /login(.:format)                    sessions#new {:format=>:json}
-# user_session               POST   /login(.:format)                    sessions#create {:format=>:json}
-# destroy_user_session       DELETE /logout(.:format)                   sessions#destroy {:format=>:json}
-# new_user_password          GET    /password/new(.:format)             devise/passwords#new {:format=>:json}
-# edit_user_password         GET    /password/edit(.:format)            devise/passwords#edit {:format=>:json}
-# user_password              PATCH  /password(.:format)                 devise/passwords#update {:format=>:json}
-#                            PUT    /password(.:format)                 devise/passwords#update {:format=>:json}
-#                            POST   /password(.:format)                 devise/passwords#create {:format=>:json}
-# cancel_user_registration   GET    /signup/cancel(.:format)            devise/registrations#cancel {:format=>:json}
-# new_user_registration      GET    /signup/sign_up(.:format)           devise/registrations#new {:format=>:json}
-# edit_user_registration     GET    /signup/edit(.:format)              devise/registrations#edit {:format=>:json}
-# user_registration          PATCH  /signup(.:format)                   devise/registrations#update {:format=>:json}
-#                            PUT    /signup(.:format)                   devise/registrations#update {:format=>:json}
-#                            DELETE /signup(.:format)                   devise/registrations#destroy {:format=>:json}
-#                            POST   /signup(.:format)                   devise/registrations#create {:format=>:json}
-# users                      GET    /users(.:format)                    users#index
-#                            GET    /users/:id(.:format)                users#show
-#                            DELETE /users/:id(.:format)                users#destroy
-#                            GET    /users/:user_id/trips(.:format)     trips#show
-#                            POST   /users/:user_id/trips(.:format)     trips#create
-#                            PATCH  /users/:user_id/trips/:id(.:format) trips#update
-#                            DELETE /users/:user_id/trips/:id(.:format) trips#destroy
-# countries_quiz             POST   /countries/quiz(.:format)           countries#suggestVacationDestinations
-# root                       GET    /                                   users#index
+# new_user_session           GET    /login                            sessions#new {:format=>:json}
+# user_session               POST   /login                            sessions#create {:format=>:json}
+# destroy_user_session       DELETE /logout                           sessions#destroy {:format=>:json}
+# new_user_password          GET    /password/new                     devise/passwords#new {:format=>:json}
+# edit_user_password         GET    /password/edit                    devise/passwords#edit {:format=>:json}
+# user_password              PATCH  /password                         devise/passwords#update {:format=>:json}
+#                            PUT    /password                         devise/passwords#update {:format=>:json}
+#                            POST   /password                         devise/passwords#create {:format=>:json}
+# cancel_user_registration   GET    /signup/cancel                    devise/registrations#cancel {:format=>:json}
+# new_user_registration      GET    /signup/sign_up                   devise/registrations#new {:format=>:json}
+# edit_user_registration     GET    /signup/edit                      devise/registrations#edit {:format=>:json}
+# user_registration          PATCH  /signup                           devise/registrations#update {:format=>:json}
+#                            PUT    /signup                           devise/registrations#update {:format=>:json}
+#                            DELETE /signup                           devise/registrations#destroy {:format=>:json}
+#                            POST   /signup                           devise/registrations#create {:format=>:json}
+# users                      GET    /users                            users#index
+#                            GET    /users/:id                        users#show
+#                            DELETE /users/:id                        users#destroy
+#                            GET    /users/:user_id/trips             trips#show
+#                            POST   /users/:user_id/trips             trips#create
+#                            PATCH  /users/:user_id/trips/:id         trips#update
+#                            DELETE /users/:user_id/trips/:id         trips#destroy
+# countries_quiz             POST   /countries/quiz                   countries#suggestVacationDestinations
+#                            GET    /countries/:country_id/pois       point_of_interests#fetchCountryPointsOfInterest
+# root                       GET    /                                 users#index
 
 Rails.application.routes.draw do
   devise_for :users,
@@ -48,7 +49,8 @@ Rails.application.routes.draw do
   patch   '/users/:user_id/trips/:id',  to: 'trips#update'
   delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
 
-  post     '/countries/quiz',           to: 'countries#suggestVacationDestinations'
+  post     '/countries/quiz',             to: 'countries#suggestVacationDestinations'
+  get      '/countries/:country_id/pois', to: 'point_of_interests#fetchCountryPointsOfInterest'
 
   root to: "users#index"
 end
