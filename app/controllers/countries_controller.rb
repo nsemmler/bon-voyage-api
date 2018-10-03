@@ -39,7 +39,12 @@ class CountriesController < ApplicationController
 
       puts "NUMBER OF COUNTRIES RETURNED: #{@countries.as_json.length}"
 
-      render json: @countries.as_json
+      country_pois_arr = []
+      @countries.each do |country|
+        country_pois_arr.push(country.point_of_interests)
+      end
+
+      render json: { countries: @countries, pois: country_pois_arr }
     end
   end
 
