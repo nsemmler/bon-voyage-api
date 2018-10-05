@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181002183534) do
+ActiveRecord::Schema.define(version: 20181005144617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,28 +60,6 @@ ActiveRecord::Schema.define(version: 20181002183534) do
     t.index ["country_id"], name: "index_point_of_interests_on_country_id"
   end
 
-  create_table "trips", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "destination_name"
-    t.string "destination_country_code"
-    t.string "destination_region"
-    t.string "destination_subregion"
-    t.text "destination_languages"
-    t.date "departed"
-    t.date "returned"
-    t.boolean "flew", default: false
-    t.boolean "drove", default: false
-    t.boolean "took_train", default: false
-    t.boolean "booked_hotel", default: false
-    t.string "departure_origin_iata_code"
-    t.string "departure_destination_iata_code"
-    t.string "return_origin_iata_code"
-    t.string "return_destination_iata_code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_trips_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -99,6 +77,16 @@ ActiveRecord::Schema.define(version: 20181002183534) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "users_favorites", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "country_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_users_favorites_on_country_id"
+    t.index ["user_id"], name: "index_users_favorites_on_user_id"
+  end
+
   add_foreign_key "point_of_interests", "countries"
-  add_foreign_key "trips", "users"
+  add_foreign_key "users_favorites", "countries"
+  add_foreign_key "users_favorites", "users"
 end
