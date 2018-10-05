@@ -9,10 +9,10 @@ namespace :countries do
   task run_all: [
     :fetch_country_general_info,
     :seed_db_with_country_info,
-    # :fetch_country_advisory_info,
-    :fetch_points_of_interest,
+    :fetch_country_images,
     :update_bordered_by_values,
-    :fetch_country_images
+    # :fetch_country_advisory_info,
+    :fetch_points_of_interest
   ]
 
   desc "Fetches general information for every country, writes to JSON file"
@@ -81,6 +81,59 @@ namespace :countries do
     end
 
     puts "seed_db_with_country_info completed"
+  end
+
+  desc "Fetches images for every country, writes to JSON file"
+  task fetch_country_images: :environment do
+    puts "Starting fetch_country_images"
+
+    if File.exist?('public/countries.json')
+      file = JSON.parse(File.read("public/countries.json"))
+      countries_arr = JSON.parse(file)
+
+      countries_arr.each do |country|
+        if (Country.find_by(name: country["name"]).images.nil?)
+          puts "Fetching pictures for #{country["name"]}"
+
+          response = RestClient.get("https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=#{country['name'].gsub(/\u00C5/, 'A').gsub(/\u00E7/, 'c').gsub(/\u00F4/, 'o').gsub(/\u00E9/, 'e')}", headers={
+            "Ocp-Apim-Subscription-Key": ENV["BING_KEY_1"]
+          })
+
+          images_arr = JSON.parse(response)["value"]
+          country_images_arr = []
+
+          images_arr.each_with_index do |image_obj, i|
+            country_images_arr.push(image_obj["contentUrl"]) if (i < 15)
+          end
+
+          Country.find_by(name: country["name"]).update(images: country_images_arr)
+          sleep 1
+        end
+      end
+    end
+
+    puts "fetch_country_images completed"
+  end
+
+  desc "Updates bordered_by attribute to replace border country codes with country names"
+  task update_bordered_by_values: :environment do
+    puts "Starting update_bordered_by_values"
+
+    if File.exist?('public/countries.json')
+      file = JSON.parse(File.read("public/countries.json"))
+      countries_arr = JSON.parse(file)
+
+      countries_arr.each do |country|
+        border_countries = country["borders"]
+        if (border_countries)
+          border_countries = border_countries.map! { |cc| Country.find_by(alpha_code: cc).name }
+          border_countries = nil if (border_countries === [])
+          Country.find_by(name: country["name"]).update(bordered_by: border_countries)
+        end
+      end
+    end
+
+    puts "update_bordered_by_values completed"
   end
 
   # desc "Updates Countries' safety advisory information"
@@ -152,7 +205,7 @@ namespace :countries do
           end
         end
 
-        puts "Generated POIs for: #{country['alpha2Code']}"
+        puts "Generated POIs for: #{country.name}"
       rescue
         puts "**************************************************"
         puts "Country Code that failed: #{country['alpha2Code']}"
@@ -161,58 +214,5 @@ namespace :countries do
     end
 
     puts "fetch_points_of_interest completed"
-  end
-
-  desc "Updates bordered_by attribute to replace border country codes with country names"
-  task update_bordered_by_values: :environment do
-    puts "Starting update_bordered_by_values"
-
-    if File.exist?('public/countries.json')
-      file = JSON.parse(File.read("public/countries.json"))
-      countries_arr = JSON.parse(file)
-
-      countries_arr.each do |country|
-        border_countries = country["borders"]
-        if (border_countries)
-          border_countries = border_countries.map! { |cc| Country.find_by(alpha_code: cc).name }
-          border_countries = nil if (border_countries === [])
-          Country.find_by(name: country["name"]).update(bordered_by: border_countries)
-        end
-      end
-    end
-
-    puts "update_bordered_by_values completed"
-  end
-
-  desc "Fetches images for every country, writes to JSON file"
-  task fetch_country_images: :environment do
-    puts "Starting fetch_country_images"
-
-    if File.exist?('public/countries.json')
-      file = JSON.parse(File.read("public/countries.json"))
-      countries_arr = JSON.parse(file)
-
-      countries_arr.each do |country|
-        if (Country.find_by(name: country["name"]).images.nil?)
-          puts "Fetching pictures for #{country["name"]}"
-
-          response = RestClient.get("https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=#{country['name'].gsub(/\u00C5/, 'A').gsub(/\u00E7/, 'c').gsub(/\u00F4/, 'o').gsub(/\u00E9/, 'e')}", headers={
-            "Ocp-Apim-Subscription-Key": ENV["BING_KEY_1"]
-          })
-
-          images_arr = JSON.parse(response)["value"]
-          country_images_arr = []
-
-          images_arr.each_with_index do |image_obj, i|
-            country_images_arr.push(image_obj["contentUrl"]) if (i < 15)
-          end
-
-          Country.find_by(name: country["name"]).update(images: country_images_arr)
-          sleep 1
-        end
-      end
-    end
-
-    puts "fetch_country_images completed"
   end
 end
