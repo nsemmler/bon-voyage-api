@@ -1,10 +1,10 @@
 class UsersFavoritesController < ApplicationController
   before_action :authenticate_user!
-  
+
   # Fetch all User Favorites
   def fetchUsersFavorites
-    if params[:user_id]
-      favorites = UsersFavorite.where(user_id: params[:user_id].to_i)
+    if params[:user_id] # requires query string ?user_id=x
+      favorites = UsersFavorite.where(user_id: params[:user_id].to_i).select(:id, :user_id, :country_id)
       render json: favorites
     else
       render json: { error: 'Invalid User ID' }, status: 400
