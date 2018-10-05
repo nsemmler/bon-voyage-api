@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :users_favorites, dependent: :destroy
+  has_many :countries, through: :users_favorites
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise  :database_authenticatable,
