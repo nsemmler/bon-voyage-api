@@ -1,4 +1,4 @@
 class UsersFavorite < ApplicationRecord
-  has_many :users, dependent: :destroy
-  has_many :countries, dependent: :destroy
+  belongs_to :users, optional: true
+  belongs_to :countries, optional: true
 end
