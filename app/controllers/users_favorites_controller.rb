@@ -5,7 +5,20 @@ class UsersFavoritesController < ApplicationController
   def fetchUsersFavorites
     if params[:user_id] # requires query string ?user_id=x
       favorites = UsersFavorite.where(user_id: params[:user_id].to_i).select(:id, :user_id, :country_id)
-      render json: favorites
+
+      favorites_copy = favorites
+      favorites_arr = []
+
+      favorites_copy.each do |favorite|
+        favorites_arr.push(Country.find(favorite.country_id))
+      end
+
+      country_pois_arr = []
+      favorites_arr.each do |country|
+        country_pois_arr.push(country.point_of_interests)
+      end
+
+      render json: { countries: favorites_arr, pois: country_pois_arr }
     else
       render json: { error: 'Invalid User ID' }, status: 400
     end
