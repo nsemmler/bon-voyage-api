@@ -19,12 +19,11 @@
 # users                      GET    /users                            users#index
 #                            GET    /users/:id                        users#show
 #                            DELETE /users/:id                        users#destroy
-#                            GET    /users/:user_id/trips             trips#show
-#                            POST   /users/:user_id/trips             trips#create
-#                            PATCH  /users/:user_id/trips/:id         trips#update
-#                            DELETE /users/:user_id/trips/:id         trips#destroy
 # countries_quiz             POST   /countries/quiz                   countries#suggestVacationDestinations
 #                            GET    /countries/:country_id/pois       point_of_interests#fetchCountryPointsOfInterest
+# users_favorites            GET    /favorites                        users_favorites#fetchUsersFavorites
+#                            POST   /favorites                        users_favorites#create
+#                            DELETE /favorites                        users_favorites#destroy
 # root                       GET    /                                 users#index
 
 Rails.application.routes.draw do
@@ -40,17 +39,16 @@ Rails.application.routes.draw do
     },
     defaults: { format: :json }
 
-  get     '/users',         to: 'users#index'
-  get     '/users/:id',     to: 'users#show'
-  delete  '/users/:id',     to: 'users#destroy'
-
-  get     '/users/:user_id/trips',      to: 'trips#show'
-  post    '/users/:user_id/trips',      to: 'trips#create'
-  patch   '/users/:user_id/trips/:id',  to: 'trips#update'
-  delete  '/users/:user_id/trips/:id',  to: 'trips#destroy'
+  get     '/users',     to: 'users#index'
+  get     '/users/:id', to: 'users#show'
+  delete  '/users/:id', to: 'users#destroy'
 
   post     '/countries/quiz',             to: 'countries#suggestVacationDestinations'
   get      '/countries/:country_id/pois', to: 'point_of_interests#fetchCountryPointsOfInterest'
+
+  get      '/favorites', to: 'users_favorites#fetchUsersFavorites'
+  post     '/favorites', to: 'users_favorites#create'
+  delete   '/favorites', to: 'users_favorites#destroy'
 
   root to: "users#index"
 end
