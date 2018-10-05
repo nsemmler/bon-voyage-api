@@ -1,4 +1,6 @@
 class CountriesController < ApplicationController
+  before_action :authenticate_user!
+
   # returns all Countries that meet the provided criteria
   def suggestVacationDestinations
     # EH
