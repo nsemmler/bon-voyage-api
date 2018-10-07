@@ -79,4 +79,8 @@ RSpec.describe PointOfInterest, type: :model do
       )).to_not be_valid
     end
   end
+
+  describe "Associations" do
+    it { should belong_to(:country) }
+  end
 end

@@ -14,4 +14,9 @@ RSpec.describe UsersFavorite, type: :model do
       expect(UsersFavorite.new(user_id: 1, country_id: nil)).to_not be_valid
     end
   end
+
+  describe "Associations" do
+    it { should belong_to(:user) }
+    it { should belong_to(:country) }
+  end
 end
