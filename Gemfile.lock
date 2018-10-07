@@ -170,6 +170,10 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     ruby_dep (1.5.0)
+    shoulda (3.6.0)
+      shoulda-context (~> 1.0, >= 1.0.1)
+      shoulda-matchers (~> 3.0)
+    shoulda-context (1.2.2)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
     spring (2.0.2)
@@ -223,6 +227,7 @@ DEPENDENCIES
   rest-client
   rspec
   rspec-rails
+  shoulda
   shoulda-matchers
   spring
   spring-watcher-listen (~> 2.0.0)
