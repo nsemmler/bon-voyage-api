@@ -26,7 +26,7 @@ class CountriesController < ApplicationController
         @countries = @countries.where(bordered_by: nil)
       elsif params[:island] && params[:island] === "No"
         @countries = @countries.where("bordered_by like ?", "%[%")
-      elsif params[:island] && params[:island] === "Not sure"
+      elsif params[:island] && params[:island] === "Show both"
         # do nothing
       end
 
@@ -35,7 +35,7 @@ class CountriesController < ApplicationController
         @countries = @countries.where("languages like ?", "%English%")
       elsif params[:english_only] && params[:english_only] === "No"
         @countries = @countries.where.not("languages like ?", "%English%")
-      elsif params[:english_only] && params[:english_only] === "Not sure"
+      elsif params[:english_only] && params[:english_only] === "Show both"
         # do nothing
       end
 
@@ -56,11 +56,11 @@ class CountriesController < ApplicationController
     populations_arr = params
     population_lower_bound = 0
 
-    if populations_arr.include?("Small")
+    if populations_arr.include?("Small (< 1,000,000)")
       population_lower_bound = 0
-    elsif populations_arr.include?("Medium")
+    elsif populations_arr.include?("Medium (1,000,000 - 10,000,000)")
       population_lower_bound = 1000000
-    elsif populations_arr.include?("Large")
+    elsif populations_arr.include?("Large (> 10,000,000)")
       population_lower_bound = 10000000
     end
 
@@ -71,11 +71,11 @@ class CountriesController < ApplicationController
     populations_arr = params
     population_upper_bound = 10000000000
 
-    if populations_arr.include?("Large")
+    if populations_arr.include?("Large (> 10,000,000)")
       population_upper_bound = 10000000000
-    elsif populations_arr.include?("Medium")
+    elsif populations_arr.include?("Medium (1,000,000 - 10,000,000)")
       population_upper_bound = 10000000
-    elsif populations_arr.include?("Small")
+    elsif populations_arr.include?("Small (< 1,000,000)")
       population_upper_bound = 1000000
     end
 
