@@ -34,7 +34,7 @@ namespace :countries do
   task seed_db_with_country_info: :environment do
     puts "Starting seed_db_with_country_info"
 
-    raise "Do not run in production!" if Rails.env.production?
+    # raise "Do not run in production!" if Rails.env.production?
 
     if File.exist?('public/countries.json')
       file = JSON.parse(File.read("public/countries.json"))
