@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe Country, type: :model do
   subject { described_class.new(
     name: "Natland",
-    capital: "Nate",
-    country_code: "NN"
+    capital: "Nate"
   )}
 
   describe "Validations" do
@@ -19,11 +18,6 @@ RSpec.describe Country, type: :model do
 
     it "is not valid without a capital" do
       subject.capital = nil
-      expect(subject).to_not be_valid
-    end
-
-    it "is not valid without a country_code" do
-      subject.country_code = nil
       expect(subject).to_not be_valid
     end
   end
