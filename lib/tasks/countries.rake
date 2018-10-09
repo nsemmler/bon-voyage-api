@@ -2,7 +2,6 @@ require 'rest-client'
 require 'net/https'
 require 'uri'
 require 'json'
-require 'pry'
 
 namespace :countries do
   desc 'Creates Country object for every nation in the World'
@@ -11,7 +10,6 @@ namespace :countries do
     :seed_db_with_country_info,
     :fetch_country_images,
     :update_bordered_by_values,
-    # :fetch_country_advisory_info,
     :fetch_points_of_interest
   ]
 
@@ -135,34 +133,6 @@ namespace :countries do
 
     puts "update_bordered_by_values completed"
   end
-
-  # desc "Updates Countries' safety advisory information"
-  # task fetch_country_advisory_info: :environment do
-  #   puts "Starting fetch_country_advisory_info"
-  #
-  #   large_countries = Country.where("population >= ?", 10000000).order('population ASC')
-  #
-  #   large_countries.each do |country|
-  #     cc = country.country_code
-  #
-  #     if Country.find(country.id).advisory_state.nil?
-  #       response = RestClient.get("https://api.tugo.com/v1/travelsafe/countries/#{cc}", headers={
-  #           "X-Auth-API-Key": ENV["TUGO_TOKEN"],
-  #           "Content-Type": "application/x-www-form-urlencoded"
-  #         })
-  #       parsed_resp = JSON.parse(response)
-  #       Country.update(country.id,
-  #         advisory_state: parsed_resp["advisoryState"],
-  #         advisory_description: parsed_resp["advisoryText"],
-  #         has_advisory_warning: parsed_resp["hasAdvisoryWarning"],
-  #         has_regional_advisory: parsed_resp["hasRegionalAdvisory"]
-  #       )
-  #       sleep 1
-  #     end
-  #   end
-  #
-  #   puts "fetch_country_advisory_info completed"
-  # end
 
   desc "Fetches POIs for every country"
   task fetch_points_of_interest: :environment do
