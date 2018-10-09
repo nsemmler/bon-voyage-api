@@ -4,4 +4,5 @@ class Country < ApplicationRecord
   has_many :users, through: :users_favorites
 
   # validates_presence_of :name, :capital
+  # include ActiveModel::Serialization
 end

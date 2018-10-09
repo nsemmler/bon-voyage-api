@@ -30,11 +30,11 @@ module BonVoyageApi
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:3000'
-        resource '/*',
+        origins '*'
+        resource '*',
           headers: %w(Authorization),
           methods: :any,
-          expose: %w(Authorization)
+          # expose: %w(Authorization)
       end
     end
 
