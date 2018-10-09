@@ -33,7 +33,8 @@ module BonVoyageApi
         origins '*'
         resource '*',
           headers: %w(Authorization),
-          methods: :any
+          methods: :any,
+          expose: %w(Authorization)
       end
     end
 
