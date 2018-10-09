@@ -91,11 +91,15 @@ namespace :countries do
       countries_arr = JSON.parse(file)
 
       countries_arr.each do |country|
-        border_countries = country["borders"]
-        if (border_countries)
-          border_countries = border_countries.map! { |cc| Country.find_by(alpha_code: cc).name }
-          border_countries = nil if (border_countries === [])
-          Country.find_by(name: country["name"]).update(bordered_by: border_countries)
+        if (!Country.find_by(name: country["name"]).nil?)
+          if (Country.find_by(name: country["name"]).images.nil?)
+            border_countries = country["borders"]
+            if (border_countries)
+              border_countries = border_countries.map! { |cc| Country.find_by(alpha_code: cc).name }
+              border_countries = nil if (border_countries === [])
+              Country.find_by(name: country["name"]).update(bordered_by: border_countries)
+            end
+          end
         end
       end
     end
