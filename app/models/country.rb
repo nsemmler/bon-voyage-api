@@ -3,5 +3,5 @@ class Country < ApplicationRecord
   has_many :users_favorites, dependent: :destroy
   has_many :users, through: :users_favorites
 
-  validates_presence_of :name, :capital
+  # validates_presence_of :name, :capital
 end
