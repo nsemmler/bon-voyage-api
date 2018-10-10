@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ['https://deafening-bird.surge.sh', 'locahost:3001']
+    origins ['https://bonvoyage.surge.sh', 'locahost:3001']
 
     resource '*',
       headers: %w(Authorization),
