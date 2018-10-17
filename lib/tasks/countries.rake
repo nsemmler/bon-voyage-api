@@ -34,8 +34,6 @@ namespace :countries do
   task seed_db_with_country_info: :environment do
     puts "Starting seed_db_with_country_info"
 
-    # raise "Do not run in production!" if Rails.env.production?
-
     if File.exist?('public/countries.json')
       file = JSON.parse(File.read("public/countries.json"))
       countries_arr = JSON.parse(file)
@@ -120,7 +118,7 @@ namespace :countries do
           if (Country.find_by(name: country["name"]).images.nil?)
             puts "Fetching pictures for #{country["name"]}"
 
-            response = RestClient.get("https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=#{country['name'].gsub(/\u00C5/, 'A').gsub(/\u00E7/, 'c').gsub(/\u00F4/, 'o').gsub(/\u00E9/, 'e')}", headers={
+            response = RestClient.get("https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=#{country['name'].gsub(/\u00C5/, 'A').gsub(/\u00E7/, 'c').gsub(/\u00F4/, 'o').gsub(/\u00E9/, 'e')}%20tourist%20attractions", headers={
               "Ocp-Apim-Subscription-Key": ENV["BING_KEY_1"]
             })
 
@@ -184,6 +182,7 @@ namespace :countries do
           end
 
           puts "Generated POIs for: #{country.name}"
+          sleep 1
         rescue
           puts "**************************************************"
           puts "Country Code that failed: #{country['alpha2Code']}"
