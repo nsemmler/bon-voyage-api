@@ -1,7 +1,7 @@
 class CreateCountries < ActiveRecord::Migration[5.1]
   def change
     create_table :countries do |t|
-      t.string :name # :name through :flag - REST API
+      t.string :name
       t.string :native_name
       t.string :capital
       t.string :country_code
@@ -16,11 +16,7 @@ class CreateCountries < ActiveRecord::Migration[5.1]
       t.string :currency_symbol
       t.text :languages
       t.string :flag
-      t.text :polygon_coordinatess # OIPA API
-      t.integer :advisory_state # :adv_state through :has_reg_advisory - TuGo API
-      t.string :advisory_description
-      t.boolean :has_advisory_warning
-      t.boolean :has_regional_advisory
+      t.text :images
 
       t.timestamps
     end

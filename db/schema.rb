@@ -31,13 +31,9 @@ ActiveRecord::Schema.define(version: 20181005144054) do
     t.string "currency_symbol"
     t.text "languages"
     t.string "flag"
-    t.integer "advisory_state"
-    t.string "advisory_description"
-    t.boolean "has_advisory_warning"
-    t.boolean "has_regional_advisory"
+    t.text "images"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "images"
   end
 
   create_table "jwt_blacklists", force: :cascade do |t|
