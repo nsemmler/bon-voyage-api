@@ -7,7 +7,7 @@ class CountriesController < ApplicationController
     if !params[:regions] && !params[:subregions] && !params[:population] && !params[:island] && !params[:english_only]
       render json: { error: 'At least one filter required.' }, status: 400
     else
-      @countries = Country.order(region: :asc, name: :asc)
+      @countries = Country.order(subregion: :asc, name: :asc)
 
       # Regions/Subregions
       @countries = @countries.where(region: params[:regions]) if params[:regions]
@@ -45,6 +45,8 @@ class CountriesController < ApplicationController
       @countries.each do |country|
         country_pois_arr.push(country.point_of_interests)
       end
+
+      @countries = @countries.order(subregion: :asc, name: :asc)
 
       render json: { countries: @countries, pois: country_pois_arr }
     end
