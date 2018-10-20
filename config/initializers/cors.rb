@@ -7,7 +7,14 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ['https://bonvoyage.surge.sh', 'http://bonvoyage.surge.sh', 'https://voyage-capstone.herokuapp.com', 'http://voyage-capstone.herokuapp.com' 'http://localhost:3001']
+    origins [
+      'https://bonvoyage.surge.sh',
+      'http://bonvoyage.surge.sh',
+      'https://voyage-capstone.herokuapp.com',
+      'http://voyage-capstone.herokuapp.com',
+      'https://localhost:3001',
+      'http://localhost:3001'
+    ]
 
     resource '*',
       headers: %w(Authorization),
