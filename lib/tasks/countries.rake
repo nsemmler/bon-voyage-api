@@ -151,38 +151,43 @@ namespace :countries do
         url = "https://www.triposo.com/api/20180627/poi.json?account=#{ENV['TRIPOSO_ACCT']}&token=#{ENV['TRIPOSO_TOKEN']}&countrycode=#{country['alpha2Code']}&tag_labels=do|nightlife|cuisine|sightseeing|landmarks&order_by=-score&count=10"
 
         begin
-          response = RestClient::Request.execute(method: :get, url: url, timeout: 30, open_timeout: 30)
-          parsed_resp = JSON.parse(response)
+          currentCountry = Country.find_by(name: country["name"])
+          if (PointOfInterest.where(country_id: currentCountry.id).nil?)
+            response = RestClient::Request.execute(method: :get, url: url, timeout: 30, open_timeout: 30)
+            parsed_resp = JSON.parse(response)
 
-          images_arr = []
-          country = Country.find_by(country_code: country['alpha2Code'])
+            images_arr = []
+            country = Country.find_by(country_code: country['alpha2Code'])
 
-          parsed_resp["results"].each_with_index do |poi, i|
-            if i < 10
-              wiki_link_arr = poi["attribution"].keep_if { |obj| obj["source_id"] === "wikipedia" }
-              link = (wiki_link_arr.length > 0) ? wiki_link_arr[0]["url"] : nil
+            parsed_resp["results"].each_with_index do |poi, i|
+              if i < 10
+                wiki_link_arr = poi["attribution"].keep_if { |obj| obj["source_id"] === "wikipedia" }
+                link = (wiki_link_arr.length > 0) ? wiki_link_arr[0]["url"] : nil
 
-              if poi["images"].length > 0
-                poi["images"].each_with_index do |image, img_index|
-                  images_arr.push(image["sizes"]["original"]["url"]) if img_index < 5
+                if poi["images"].length > 0
+                  poi["images"].each_with_index do |image, img_index|
+                    images_arr.push(image["sizes"]["original"]["url"]) if img_index < 5
+                  end
                 end
+
+                PointOfInterest.create(
+                  country_id: country.id,
+                  name: poi["name"],
+                  description: poi["snippet"],
+                  score: poi["score"],
+                  wikipedia_link: link,
+                  image: images_arr,
+                  longitude: poi["coordinates"]["longitude"],
+                  latitude: poi["coordinates"]["latitude"]
+                )
               end
-
-              PointOfInterest.create(
-                country_id: country.id,
-                name: poi["name"],
-                description: poi["snippet"],
-                score: poi["score"],
-                wikipedia_link: link,
-                image: images_arr,
-                longitude: poi["coordinates"]["longitude"],
-                latitude: poi["coordinates"]["latitude"]
-              )
             end
-          end
 
-          puts "Generated POIs for: #{country.name}"
-          sleep 1
+            puts "Generated POIs for: #{country.name}"
+            sleep 1
+          else
+            puts "POI already exists for: #{currentCountry.name}"
+          end
         rescue
           puts "**************************************************"
           puts "Country Code that failed: #{country['alpha2Code']}"
